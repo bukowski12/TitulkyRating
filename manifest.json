@@ -1,21 +1,55 @@
 {
   "manifest_version": 3,
-  "name": "My Extension",
+  "name": "TitulkyRating",
   "version": "1.0",
-  "description": "A brief description of my extension",
+  "description": "U titulků zobrazuje hodnocení filmu",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "128": "images/icon128.png"
+      "128": "images/ico_128.png"
     }
   },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.titulky.com/*",
+    "https://www.csfd.cz/*",
+    "https://www.omdbapi.com/*",
+    "https://www.metacritic.com/*",
+    "https://www.imdb.com/*",
+    "https://www.rottentomatoes.com/*"
+    ],
+  "icons": {
+    "16": "images/ico_16.png",
+    "48": "images/ico_48.png",
+    "128": "images/ico_128.png"
+    },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["js/jquery-3.7.1.min.js", "js/contentScript.js"]
+      "css": [
+        "css/cstyle.css"
+      ],
+      "matches": ["*://*.titulky.com/*"],
+      "js": [
+        "js/jquery.min.js",
+        "js/content.js",
+        "js/popup.js"
+      ]
     }
   ],
   "background": {
-    "service_worker": "background.js"
-  }
+    "service_worker": "js/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/*.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }
