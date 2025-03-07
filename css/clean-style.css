@@ -1,0 +1,140 @@
+.plus-rating-container {
+    margin-left: 3px;
+    float: left;
+    color: #fff;
+    background: #e2e2e2;
+    font-weight: 700;
+    width: 346px;
+    text-align: center;
+    height: 50px;
+    padding: 7px;
+    border-radius: 3px 0 0 3px;
+}
+
+.plus-rating-link-container {
+    float: left;
+    background: #e2e2e2;
+    width: 284px;
+    height: 50px;
+    padding: 7px;
+    border-radius: 0 3px 3px 0;
+}
+
+.plus-rating {
+    position: absolute;
+    margin-top: 24px;
+    font-size: 2em;
+    border-radius: 0 0 4px 4px;
+    width: 67px;
+}
+
+.plus-rating a {
+    text-decoration: none !important;
+}
+
+.plus-rating-metacritic {
+    left: 222px;
+}
+
+.plus-rating-rottentomatoes {
+    left: 151px;
+}
+
+.plus-rating-imdb {
+    left: 80px;
+}
+
+.plus-rating-img {
+    position: absolute;
+    border-radius: 4px 4px 0 0;
+}
+
+.plus-rating a, .plus-rating a:hover, .plus-rating a:visited {
+    text-decoration: none;
+    color: #fff !important;
+}
+
+.plus-rating-blue {
+    background: #658db4;
+}
+
+.plus-rating-red {
+    background: #b01;
+}
+
+.plus-rating-black {
+    background: #535353;
+}
+
+.plus-rating-none {
+    background: #c3c3c3;
+}
+
+@keyframes fading {
+    from {
+        background: rgba(255, 0, 0, .2);
+    }
+    to {
+        background: #e2e2e2;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+    margin-top: 20px;
+}
+
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #555;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+p, li {
+    margin: 10px 0;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
