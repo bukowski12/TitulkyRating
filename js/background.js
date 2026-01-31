@@ -1,6 +1,8 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     fetch(request)
-        .then(response => response.text())
+        .then(response => {
+            return response.text();
+        })
         .then(data => {
             sendResponse({ data: data });
         })

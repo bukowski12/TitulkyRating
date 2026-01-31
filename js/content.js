@@ -50,27 +50,41 @@ function displayRatings(imdbNr) {
     $(".plus-rating-container").append('<div title="Rotten Tomatoes" class="plus-rating-img plus-rating-rottentomatoes ' + ratingBg + '"><a href="' + url.replace(/<[^>]*>?/g, "") + '" target="_blank"><img src="' + (-1 !== navigator.userAgent.indexOf("Chrome") ? chrome.runtime : browser.extension).getURL("images/imgrt.png") + '" alt="Rotten Tomatoes"></a></div>');
     $(".plus-rating-link-container").append('<div class="plus-link"><a href="' + url.replace(/<[^>]*>?/g, "") + '" target="metacritic"><img src="' + (-1 !== navigator.userAgent.indexOf("Chrome") ? chrome.runtime : browser.extension).getURL("images/imgrt_sq.png") + '" alt="RottenTomatoes.com" title="www.rottentomatoes.com"></a></div>');
     url = "https://www.csfd.cz/hledat/?q=" + JSONdata.Title + "+" + JSONdata.Year.substr(0, 4);
-    
+
     chrome.runtime.sendMessage(url, function (csfdFindRAW) {
       var imdbmovietitle = JSONdata.Title;
-      var imdbmovietitlealt = JSONdata.Title.substring(4) + ", the";
       var movietype = ".main-" + JSONdata.Type.substring(0, 5) + "s .article-content";
       csfdFindRAWdata = csfdFindRAW.data;
+
       if ($(csfdFindRAWdata).find(movietype).length) {
         $(csfdFindRAWdata).find(movietype).each(function (index, value) {
-          var imdbdirectors = JSONdata.Director.split(", ").map(n => n.toLowerCase());
-          var imdbactors = JSONdata.Actors.split(", ").map(n => n.toLowerCase());
+
+          // Helper to normalize titles (remove special chars/spaces)
+          function normalize(str) {
+            return str ? str.toLowerCase().replace(/[^a-z0-9]/g, "") : "";
+          }
+
+          var imdbmovietitlealt = JSONdata.Title.toLowerCase().startsWith("the ") ? JSONdata.Title.substring(4) + ", the" : JSONdata.Title;
           var movietitle = $(value).find(".film-title-name").text();
           var movietitleother = $(value).find(".search-name").text().slice(1, -1);
           var moviepath = $(value).find(".film-title-name").attr("href");
+
           var moviecreators = [];
+          var imdbdirectors = JSONdata.Director.split(", ").map(n => n.toLowerCase());
+          var imdbactors = JSONdata.Actors.split(", ").map(n => n.toLowerCase());
 
           $(value).find(".film-creators a").each(function (ind, val) {
             moviecreators.push($(val).text().toLowerCase());
           });
           const matchdirectors = imdbdirectors.filter(element => moviecreators.includes(element));
           const matchactors = imdbactors.filter(element => moviecreators.includes(element));
-          if (imdbmovietitle.toLowerCase() == movietitle.toLowerCase() || imdbmovietitle.toLowerCase() == movietitleother.toLowerCase() || imdbmovietitlealt.toLowerCase() == movietitle.toLowerCase() || imdbmovietitlealt.toLowerCase() == movietitleother.toLowerCase()) {
+
+          const normImdb = normalize(imdbmovietitle);
+          const normImdbAlt = normalize(imdbmovietitlealt);
+          const normCsfd = normalize(movietitle);
+          const normCsfdOther = normalize(movietitleother);
+
+          if (normImdb == normCsfd || normImdb == normCsfdOther || normImdbAlt == normCsfd || normImdbAlt == normCsfdOther) {
             chrome.runtime.sendMessage("https://www.csfd.cz" + moviepath, function (csfdPageRAW) {
               var csfdPageRAWdata = csfdPageRAW.data;
               var badgeBg = "plus-badge-purple";
@@ -120,10 +134,10 @@ $(document).ready(function () {
     }).closest("tr").addClass("plus-topped"),
       $(".plus-topped:first").attr("id", "titulek").attr("name", "titulek"),
       window.location.hash = "titulek"),
-  
+
     $("h1").length && $("a[target='imdb']").length && -1 !== location.href.indexOf("pozadavek-") && $("a[href$='Logoff=true']").length && (imdb = $("a[target='imdb']").attr("href").split("title/")[1].slice(0, -1)),
     $("h1").length && $("a[target='imdb']").length && -1 == location.href.indexOf("pozadavek-") && ((title = (CookieDate = $("h1").text().split(" ("))[0]).replace(new RegExp(" ", "g"), "+").replace("&", ""),
-    CookieDate = CookieDate[1].substring(0, 4),
-    imdb = $("a[target='imdb']").attr("href").split("title/")[1], displayRatings(imdb))
+      CookieDate = CookieDate[1].substring(0, 4),
+      imdb = $("a[target='imdb']").attr("href").split("title/")[1], displayRatings(imdb))
   );
 });
